@@ -46,4 +46,4 @@ jobs:
 
       - name: Run type checks
         run: |
-          mypy websinaro/webcrypten/ --ignore-missing-imports
+          mypy -p websinaro.webcrypten
