@@ -11,12 +11,12 @@ dependencies = [
     "cryptography>=41.0",
 ]
 
+[tool.setuptools.packages.find]
+include = ["websinaro.webcrypten*"]
+namespaces = true
+
 [tool.mypy]
 namespace_packages = true
 explicit_package_bases = true
 mypy_path = "."
 ignore_missing_imports = true
-
-[tool.setuptools.packages.find]
-include = ["websinaro.webcrypten*"]
-namespaces = true
