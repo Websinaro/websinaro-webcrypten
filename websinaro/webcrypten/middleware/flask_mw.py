@@ -1,11 +1,13 @@
 """
 flask_mw.py
-Flask middleware for Websinaro: transparently decrypts incoming request
-bodies and encrypts outgoing response bodies when the encryption header
-is present.
+Flask middleware for Websinaro Webcrypten: transparently decrypts incoming
+request bodies and encrypts outgoing response bodies when the encryption
+header is present.
 """
 
-from flask import request, g
+import io
+
+from flask import request, g, abort
 from websinaro.webcrypten.utils.exceptions import DecryptionError
 
 ENCRYPT_HEADER = "X-Websinaro-Encrypt"
@@ -13,11 +15,11 @@ ENCRYPT_HEADER = "X-Websinaro-Encrypt"
 
 def init_app(app, webcryptpen_instance):
     """
-    Wires Websinaro into a Flask app.
+    Wires Websinaro Webcrypten into a Flask app.
 
     Usage:
-        from websinaro import webcryptpen
-        from websinaro.middleware.flask_mw import init_app
+        from websinaro.webcrypten import webcryptpen
+        from websinaro.webcrypten.middleware.flask_mw import init_app
 
         app = Flask(__name__)
         init_app(app, webcryptpen_instance=webcryptpen)
@@ -36,14 +38,13 @@ def init_app(app, webcryptpen_instance):
             token = raw_body.decode("utf-8")
             decrypted = webcryptpen_instance.decrypt(token)
         except (DecryptionError, UnicodeDecodeError) as e:
-            from flask import abort
             abort(400, description=f"Decryption failed: {e}")
 
         # Stash decrypted body so route handlers can access it via g.decrypted_body
         g.decrypted_body = decrypted
         # Overwrite Flask's internal cache so request.get_data()/get_json() see plaintext
         request._cached_data = decrypted
-        request.environ["wsgi.input"] = _BytesIOWrapper(decrypted)
+        request.environ["wsgi.input"] = io.BytesIO(decrypted)
 
     @app.after_request
     def _encrypt_outgoing(response):
@@ -56,13 +57,3 @@ def init_app(app, webcryptpen_instance):
         response.headers["Content-Type"] = "text/plain"
         response.headers[ENCRYPT_HEADER] = "true"
         return response
-
-
-class _BytesIOWrapper:
-    """Minimal wrapper so overwritten wsgi.input still supports .read()."""
-    def __init__(self, data: bytes):
-        import io
-        self._buf = io.BytesIO(data)
-
-    def read(self, *args, **kwargs):
-        return self._buf.read(*args, **kwargs)
