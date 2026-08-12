@@ -6,6 +6,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["testserver"]
 ROOT_URLCONF = "tests.django_urls"
 MIDDLEWARE = [
-    "websinaro.middleware.django_mw.WebsinaroMiddleware",
+    "websinaro.webcrypten.middleware.django_mw.WebsinaroMiddleware",
 ]
 DATABASES = {}
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
