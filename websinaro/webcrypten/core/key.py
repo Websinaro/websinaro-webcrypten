@@ -1,7 +1,7 @@
 """
 key.py
 Handles loading, validation, and derivation of cryptographic keys
-for the Websinaro double-cipher chaining engine.
+for the Websinaro Webcrypten double-cipher chaining engine.
 """
 
 import os
@@ -22,7 +22,12 @@ from websinaro.webcrypten.utils.exceptions import (
 _LAYER1_INFO = b"websinaro-layer1-aes-gcm-v1"
 _LAYER2_INFO = b"websinaro-layer2-chacha20-v1"
 
+# Accepts base64 (letters, digits, +, /, = padding) or hex output from a
+# secure key generator. No complexity rules — this is for machine-generated
+# keys, not human passwords.
 _KEY_CHARSET_PATTERN = re.compile(r"^[A-Za-z0-9+/=]+$")
+
+MIN_KEY_LENGTH = 32  # ~256 bits of entropy, base64-encoded
 
 
 class Key:
@@ -49,9 +54,9 @@ class Key:
         if not isinstance(master_key, str):
             raise NotStandardFormError("Master key must be a string.")
 
-        if len(master_key) < 32:
+        if len(master_key) < MIN_KEY_LENGTH:
             raise SmallKeyError(
-                "Master key must be at least 32 characters "
+                f"Master key must be at least {MIN_KEY_LENGTH} characters "
                 "(use a generated key, e.g. `openssl rand -base64 32`)."
             )
 
