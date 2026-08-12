@@ -1,6 +1,6 @@
 """
 fastapi_mw.py
-FastAPI/Starlette middleware for Websinaro.
+FastAPI/Starlette middleware for Websinaro Webcrypten.
 """
 
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -15,8 +15,8 @@ ENCRYPT_HEADER = "X-Websinaro-Encrypt"
 class WebsinaroMiddleware(BaseHTTPMiddleware):
     """
     Usage:
-        from websinaro import webcryptpen
-        from websinaro.middleware.fastapi_mw import WebsinaroMiddleware
+        from websinaro.webcrypten import webcryptpen
+        from websinaro.webcrypten.middleware.fastapi_mw import WebsinaroMiddleware
 
         app.add_middleware(WebsinaroMiddleware, webcryptpen_instance=webcryptpen)
     """
@@ -40,11 +40,12 @@ class WebsinaroMiddleware(BaseHTTPMiddleware):
                         content={"error": f"Decryption failed: {e}"},
                     )
 
-                # Replace the request's receive() so downstream handlers
-                # see decrypted bytes when they call request.body()/.json()
-                async def receive():
-                    return {"type": "http.request", "body": decrypted, "more_body": False}
-                request._receive = receive
+                # Starlette's Request.body() checks the internal `_body` cache
+                # FIRST, before ever consulting `_receive` again. Overwriting
+                # only `_receive` (without this) silently does nothing, since
+                # the cache was already populated by the `await request.body()`
+                # call above. Overwrite the cache directly instead.
+                request._body = decrypted
 
         response = await call_next(request)
 
