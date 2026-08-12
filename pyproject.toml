@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "websinaro-webcrypten"
+version = "0.1.0"
+description = "Two-level (double-cipher chaining) encryption middleware for Python web frameworks"
+requires-python = ">=3.10"
+dependencies = [
+    "cryptography>=41.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["websinaro.webcrypten*"]
+namespace-packages = true
