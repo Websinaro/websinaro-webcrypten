@@ -6,7 +6,7 @@ is present.
 """
 
 from flask import request, g
-from websinaro.webcryptpen.utils.exceptions import DecryptionError
+from websinaro.webcrypten.utils.exceptions import DecryptionError
 
 ENCRYPT_HEADER = "X-Websinaro-Encrypt"
 
