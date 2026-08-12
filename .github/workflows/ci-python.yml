@@ -26,7 +26,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -e .
-          pip install pytest flask fastapi uvicorn django httpx mypy
+          pip install pytest flask fastapi uvicorn django httpx mypy ruff
+
+      - name: Lint (syntax check)
+        run: |
+          ruff check websinaro/ --select=E9,F
 
       - name: Verify package imports correctly
         env:
