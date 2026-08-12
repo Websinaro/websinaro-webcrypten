@@ -46,24 +46,22 @@ class Key:
         return master_key
 
     def validate_master_key(self, master_key: str) -> bool:
-    if not isinstance(master_key, str):
-        raise NotStandardFormError("Master key must be a string.")
+        if not isinstance(master_key, str):
+            raise NotStandardFormError("Master key must be a string.")
 
-    # 32 bytes of raw entropy, base64-encoded, is ~44 chars.
-    # Require at least that much so weak/short keys are rejected.
-    if len(master_key) < 32:
-        raise SmallKeyError(
-            "Master key must be at least 32 characters "
-            "(use a generated key, e.g. `openssl rand -base64 32`)."
-        )
+        if len(master_key) < 32:
+            raise SmallKeyError(
+                "Master key must be at least 32 characters "
+                "(use a generated key, e.g. `openssl rand -base64 32`)."
+            )
 
-    if not _KEY_CHARSET_PATTERN.match(master_key):
-        raise NotStandardFormError(
-            "Master key contains invalid characters. "
-            "Expected base64 or hex output from a secure key generator."
-        )
+        if not _KEY_CHARSET_PATTERN.match(master_key):
+            raise NotStandardFormError(
+                "Master key contains invalid characters. "
+                "Expected base64 or hex output from a secure key generator."
+            )
 
-    return True
+        return True
 
     def derive_keys(self) -> tuple[bytes, bytes]:
         """
