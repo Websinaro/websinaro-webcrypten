@@ -172,7 +172,7 @@ All inherit from `websinaro.webcrypten.utils.exceptions.WebsinaroError`.
 ## Development
 
 ```bash
-git clone https://github.com/<your-username>/websinaro-webcrypten.git
+git clone https://github.com/Websinaro/websinaro-webcrypten.git
 cd websinaro-webcrypten
 pip install -e .
 pip install pytest flask fastapi uvicorn django httpx mypy ruff
@@ -188,7 +188,7 @@ MIT License — see LICENSE file.
 
 ---
 
-## `LICENSE` (MIT — replace `<Your Name / Websinaro>` and year as needed)
+## `LICENSE` (MIT — `Websinaro` 2026)
 
 ```
 MIT License
