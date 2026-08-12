@@ -1,6 +1,6 @@
 import os
 import pytest
-from websinaro.core.key import Key
+from websinaro.webcrypten.core.key import Key
 from websinaro.webcrypten.utils.exceptions import SmallKeyError, NotStandardFormError, KeyLoadError
 
 GOOD_KEY = "Xk9pQ2vN8mL4wR7tY1zA6bC3dF5gH0jK+/=="  # 38 chars, valid charset
