@@ -1,6 +1,6 @@
 """
-websinaro/__init__.py
-Public entry point: from websinaro import webcryptpen, WebCryptPen
+websinaro/webcrypten/__init__.py
+Public entry point: from websinaro.webcrypten import webcryptpen, WebCryptPen
 """
 
 from websinaro.webcrypten.core.engine import WebCryptPen
