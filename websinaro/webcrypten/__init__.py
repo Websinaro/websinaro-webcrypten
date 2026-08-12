@@ -3,7 +3,7 @@ websinaro/__init__.py
 Public entry point: from websinaro import webcryptpen, WebCryptPen
 """
 
-from websinaro.webcryptpen.core.engine import WebCryptPen
+from websinaro.webcrypten.core.engine import WebCryptPen
 
 __all__ = ["WebCryptPen", "webcryptpen"]
 
