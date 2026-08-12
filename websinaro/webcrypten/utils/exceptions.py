@@ -1,11 +1,25 @@
-class SmallKeyError(Exception):
+"""
+exceptions.py
+Custom exception types for Websinaro Webcrypten.
+"""
+
+
+class WebsinaroError(Exception):
+    """Base exception for all Websinaro Webcrypten errors."""
     pass
 
-class NotStandardFormError(Exception):
+
+class SmallKeyError(WebsinaroError):
     pass
 
-class KeyLoadError(Exception):
+
+class NotStandardFormError(WebsinaroError):
     pass
 
-class DecryptionError(Exception):
+
+class KeyLoadError(WebsinaroError):
+    pass
+
+
+class DecryptionError(WebsinaroError):
     pass
